@@ -17,42 +17,28 @@
 
 			SEng.SetDebugging(true);
 
-			fajne = new GameObject("abc", 100, 100);
-			fajnesze = new GameObject("abc", 100, 140);
+			balls = [];
 
-			target60 = false;
+			dotSprite = new Sprite("dot.png", 32, 32);
 
-			window.onkeydown = function(event) {
-				if (event.keyCode == 70) {
-					if (target60) {
-						target60 = false;
-					} else {
-						target60 = true;
-					}
-				}
+			for (i=0; i < 1000; i++) {
+				balls[i] = new GameObject(dotSprite, Math.random() * SEng.TargetCanvas.width, Math.random() * SEng.TargetCanvas.height);
 			}
 
 			update();
 			function update() {
 				SEng.Render();
 				
-				fajne.x += 2 * SEng.DeltaTime;
-				
-				if (fajne.x > SEng.TargetCanvas.width) {
-					fajne.x = 0;
+				for (i=0; i < 1000; i++) {
+					balls[i].y += SEng.DeltaTime;
+
+					if (balls[i].y > SEng.TargetCanvas.height) {
+						balls[i].y = Math.random() * SEng.TargetCanvas.height;
+						balls[i].x = Math.random() * SEng.TargetCanvas.width;
+					}
 				}
 
-				fajnesze.x += SEng.DeltaTime / 2;
-				
-				if (fajnesze.x > SEng.TargetCanvas.width) {
-					fajnesze.x = 0;
-				}
-
-				if (target60) {
-					setTimeout("update()", SEng.Time60FPS)
-				} else {
-					setTimeout("update()", SEng.Time30FPS)		
-				}
+				setTimeout("update()", SEng.Time60FPS)
 			}
 		</script>
 	</body>

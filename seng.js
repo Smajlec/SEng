@@ -68,16 +68,16 @@ var SEng = {
 		SEng.TargetCanvasContext.fillStyle = "#000000";
 		SEng.TargetCanvasContext.fillRect(0, 0, SEng.TargetCanvas.width, SEng.TargetCanvas.height);
 
+		/* Object Rendering */
+		for (i=0; i < SEng.GameObjects.length; i++) {
+			SEng.TargetCanvasContext.drawImage(SEng.GameObjects[i].sprite.imageHTML, SEng.GameObjects[i].x - SEng.GameObjects[i].sprite.width / 2, SEng.GameObjects[i].y - SEng.GameObjects[i].sprite.height / 2, SEng.GameObjects[i].sprite.width, SEng.GameObjects[i].sprite.height);
+		}
+
 		/* Debug info */
 		if (SEng.Debugging) {
 			SEng.TargetCanvasContext.fillStyle = "#00FF00";
 			SEng.TargetCanvasContext.fillText(Math.round(1000 / SEng.DeltaTime) + "fps, Avg: " + Math.round(SEng.FPSSum / SEng.FrameCount) + "fps", 10, 15);
 			SEng.TargetCanvasContext.fillText("total objs " + SEng.GameObjects.length, 10, 25);
-
-			for (i=0; i < SEng.GameObjects.length; i++) {
-				SEng.TargetCanvasContext.fillText(SEng.GameObjects[i].sprite, SEng.GameObjects[i].x, SEng.GameObjects[i].y - 5);
-				SEng.TargetCanvasContext.fillText(SEng.GameObjects[i].x + ", " + SEng.GameObjects[i].y, SEng.GameObjects[i].x, SEng.GameObjects[i].y + 5);
-			}
 		}
 
 		/* Storing values for later usage */
@@ -93,6 +93,21 @@ var SEng = {
 		SEng.Log("Debugging " + SEng.Debugging.toString());
 	}
 
+}
+
+/* Sprite */
+var Sprite = function(image, width, height) {
+
+	this.image = image;
+
+	this.width = width;
+	this.height = height;
+
+	/* Creating Image */
+	this.imageHTML = document.createElement("img");
+	this.imageHTML.src = image;
+
+	SEng.Log("Registered new sprite using '" + this.image + "'");
 }
 
 /* Game Object */
