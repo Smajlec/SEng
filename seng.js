@@ -1,5 +1,5 @@
-/* Variables */
-var SEng = SEng || {
+/* Main Engine Class */
+var SEng = {
 
 	TargetCanvas : null,
 	TargetCanvasContext : null,
@@ -14,6 +14,11 @@ var SEng = SEng || {
 	LastFrame : Date.now(),
 	DeltaTime : 0,
 
+	MouseX : 0,
+	MouseY : 0,
+
+	GameObjects : [],
+
 	Debugging : true,
 
 	/* Logging */
@@ -25,6 +30,14 @@ var SEng = SEng || {
 	SetCanvas : function(canvasElement) {
 		SEng.TargetCanvas = canvasElement;
 		SEng.TargetCanvasContext = SEng.TargetCanvas.getContext("2d");
+
+		/* Hooking canvas events */
+		SEng.TargetCanvas.onmousemove = function(event) {
+			canvasRect = SEng.TargetCanvas.getBoundingClientRect();
+			SEng.MouseX = event.clientX - canvasRect.left;
+			SEng.MouseY = event.clientY - canvasRect.top;
+		}
+
 		SEng.Log("Target canvas Set");
 	},
 
@@ -43,6 +56,11 @@ var SEng = SEng || {
 
 	Render : function() {
 
+		if (SEng.TargetCanvasContext == null) {
+			SEng.Log("Canvas not declared properly");
+			return;
+		}
+
 		/* Required calculations */
 		SEng.DeltaTime = Date.now() - SEng.LastFrame;
 
@@ -53,7 +71,13 @@ var SEng = SEng || {
 		/* Debug info */
 		if (SEng.Debugging) {
 			SEng.TargetCanvasContext.fillStyle = "#00FF00";
-			SEng.TargetCanvasContext.fillText(Math.round(1000 / SEng.DeltaTime) + "fps, Avg: " + Math.round(SEng.FPSSum / SEng.FrameCount) + "fps", 15, 15);
+			SEng.TargetCanvasContext.fillText(Math.round(1000 / SEng.DeltaTime) + "fps, Avg: " + Math.round(SEng.FPSSum / SEng.FrameCount) + "fps", 10, 15);
+			SEng.TargetCanvasContext.fillText("total objs " + SEng.GameObjects.length, 10, 25);
+
+			for (i=0; i < SEng.GameObjects.length; i++) {
+				SEng.TargetCanvasContext.fillText(SEng.GameObjects[i].sprite, SEng.GameObjects[i].x, SEng.GameObjects[i].y - 5);
+				SEng.TargetCanvasContext.fillText(SEng.GameObjects[i].x + ", " + SEng.GameObjects[i].y, SEng.GameObjects[i].x, SEng.GameObjects[i].y + 5);
+			}
 		}
 
 		/* Storing values for later usage */
@@ -69,4 +93,17 @@ var SEng = SEng || {
 		SEng.Log("Debugging " + SEng.Debugging.toString());
 	}
 
+}
+
+/* Game Object */
+var GameObject = function(sprite, x, y) {
+
+	this.sprite = sprite;
+
+	this.x = x;
+	this.y = y;
+
+	SEng.GameObjects.push(this);
+
+	SEng.Log("New GameObject added at " + this.x + ", " + this.y);
 }

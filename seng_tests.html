@@ -17,9 +17,35 @@
 
 			SEng.SetDebugging(true);
 
-			setInterval("update()", SEng.Time60FPS);
+			fajne = new GameObject("abc", 100, 100);
+
+			target60 = false;
+
+			window.onkeydown = function(event) {
+				if (event.keyCode == 70) {
+					if (target60) {
+						target60 = false;
+					} else {
+						target60 = true;
+					}
+				}
+			}
+
+			update();
 			function update() {
 				SEng.Render();
+				
+				fajne.x += 2 * SEng.DeltaTime;
+				
+				if (fajne.x > SEng.TargetCanvas.width) {
+					fajne.x = 0;
+				}
+
+				if (target60) {
+					setTimeout("update()", SEng.Time60FPS)
+				} else {
+					setTimeout("update()", SEng.Time30FPS)		
+				}
 			}
 		</script>
 	</body>
