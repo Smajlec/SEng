@@ -18,6 +18,7 @@
 			SEng.SetDebugging(true);
 
 			fajne = new GameObject("abc", 100, 100);
+			fajnesze = new GameObject("abc", 100, 140);
 
 			target60 = false;
 
@@ -39,6 +40,12 @@
 				
 				if (fajne.x > SEng.TargetCanvas.width) {
 					fajne.x = 0;
+				}
+
+				fajnesze.x += SEng.DeltaTime / 2;
+				
+				if (fajnesze.x > SEng.TargetCanvas.width) {
+					fajnesze.x = 0;
 				}
 
 				if (target60) {
