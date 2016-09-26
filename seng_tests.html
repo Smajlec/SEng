@@ -5,5 +5,22 @@
 		<title>SEng Tests</title>
 	</head>
 	<body>
+
+		<canvas id="testCanvas">
+
+		</canvas>
+
+		<script src="seng.js"></script>
+		<script>
+			SEng.SetCanvas(document.getElementById("testCanvas"));
+			SEng.Resize(1280, 720);
+
+			SEng.SetDebugging(true);
+
+			setInterval("update()", SEng.Time60FPS);
+			function update() {
+				SEng.Render();
+			}
+		</script>
 	</body>
 </html>
