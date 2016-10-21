@@ -1,7 +1,7 @@
 # SEng
-Attempt at creating JavaScript game engine
+My very basic JavaScript game engine
 
-Currently supports only basic functions such as:
+Currently supported functions are:
 - Sprite rendering
 - Basic GameObjects
 - Debug informations
